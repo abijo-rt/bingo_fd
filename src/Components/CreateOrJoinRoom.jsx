@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import socket from "../socket";
 
 
-const CreateOrJoinRoom =()=>{
+const CreateOrJoinRoom = () => {
 
     const createRoomAPI = (hostName,sizeOfBoard) => {
         socket.emit('create room', {hostName , sizeOfBoard} , (res)=>{
@@ -14,7 +14,6 @@ const CreateOrJoinRoom =()=>{
         createRoomAPI(hostName,sizeOfBoard);
     }
    
-
     const [hostName,setHostName] = useState('');
     const [sizeOfBoard,setSizeOfBoard] = useState(5);
 
@@ -25,6 +24,7 @@ const CreateOrJoinRoom =()=>{
             </div>
         </>
     )
+
 }
 
 export default CreateOrJoinRoom;
