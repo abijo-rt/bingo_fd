@@ -33,9 +33,11 @@ const PlayerBoard = () => {
 
     }
 
-    const numberCrossed = () => {
-        socket.emit('cross number', { roomid : 1234 });
-    }
+
+    // this soulh be use in the board comonent
+    // const numberCrossed = () => {
+    //     socket.emit('cross number', { roomid : 1234 });
+    // }
 
     // init required sockets
     useEffect(()=>{
@@ -45,7 +47,10 @@ const PlayerBoard = () => {
    
 
     return (
-        <>
+        <>  
+
+            {/* use this for format to crate ui */}
+
             <div className=' gluten-500 w-[20%] h-[70%] bg-white flex flex-col rounded-md'>
 
                 <div className='w-full h-10 border-b border-b-gray-300 text-2xl flex items-center justify-center text-[#211C84]'>PlayerBoard</div>
