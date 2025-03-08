@@ -8,7 +8,8 @@ function App() {
       <div className="relative z-10 h-screen bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 flex items-center justify-center">
         {/* Blurred Background Elements */}
           <HomeBg/>
-       
+
+        <h1>Iam Venkat</h1>   
 
         {/* Foreground Content */}
         <div className="text-[#281950] w-[25%] h-[50%] bg-white shadow-2xl rounded-xl flex items-center justify-center  flex-col">
