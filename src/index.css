@@ -23,3 +23,14 @@
     "slnt" 0;
 }
 
+<<<<<<< HEAD
+=======
+.gluten-500 {
+  font-family: "Gluten", cursive;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0;
+}
+>>>>>>> feature-player_board

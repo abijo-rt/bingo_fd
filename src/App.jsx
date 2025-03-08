@@ -1,6 +1,7 @@
 import './App.css'
 import HomeBg from './Backgroud/HomeBg';
 import CreateOrJoinRoom from './Components/CreateOrJoinRoom';
+import PlayerBoard from './Components/PlayerBoard';
 
 function App() {
   return (
@@ -11,10 +12,12 @@ function App() {
 
         <h1>Iam Venkat</h1>   
 
+            <PlayerBoard/>
+
         {/* Foreground Content */}
-        <div className="text-[#281950] w-[25%] h-[50%] bg-white shadow-2xl rounded-xl flex items-center justify-center  flex-col">
+        {/* <div className="text-[#281950] w-[25%] h-[50%] bg-white shadow-2xl rounded-xl flex items-center justify-center  flex-col">
             <CreateOrJoinRoom/>
-        </div>
+        </div> */}
       </div>
     </>
   );
