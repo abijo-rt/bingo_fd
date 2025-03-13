@@ -1,17 +1,22 @@
 import { useState } from "react";
 import socket from "../socket";
 import JoinRoom from "./JoinRoom";
-
+import { Navigate, useNavigate } from "react-router-dom";
 const CreateRoom = () => {
   
   const [activeTab, setActiveTab] = useState("create"); // 'create' or 'join'
   const [hostName, setHostName] = useState("");
   const [sizeOfBoard, setSizeOfBoard] = useState(5);
 
+  const navigate = useNavigate();
+
   const createRoomAPI = (hostName, sizeOfBoard) => {
-    socket.emit("create room", { hostName, sizeOfBoard }, (res) => {
-      console.log(res);
-    });
+      socket.emit("create room", { hostName, sizeOfBoard }, (res) => {
+        console.log(res);
+        if(res.status){
+          navigate(`/gameLobby?roomid=1234`);
+        }
+      });
   };
 
   const createRoom = () => {

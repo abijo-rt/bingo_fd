@@ -4,23 +4,35 @@ import { useEffect, useState } from 'react';
 // const baord  = []  || { player name || player Turn || number Cross STATUS }
 
 
-const PlayerBoard = () => {
+const PlayerBoard = ({roomid}) => {
 
-    const [board, setBoard] = useState([{id:0,name:'abijo'},{id:1,name:'vj'},{id:2,name:'vk'}]);
+    const [board, setBoard] = useState([]);
     const [currTurn,setCurrTurn] = useState(-1);
+    
     
 
     const initBoard = () => {
 
-        socket.on( 'player joined' , ({ id  , name  })=> {
+        console.log("ROOM ID"+roomid)
+        
+        // set a socket emit to get the intial data 
+        socket.emit( 'get init player board' , {roomid} , (res) => {
+            console.log(res)
+            const board = res.player.map( player =>{
+                player.isCrossed = false 
+                return player
+            } );
+            setBoard(board)
             console.log(board)
-            setBoard([...board,{ id , name , isCrossed : false }])
         })
 
-        socket.on( 'player turn' , ({id})=>{
-            setBoard(id);
+        socket.on( 'player joined' , ({ player  }) => {
+            console.log("player board data")
+            console.log(player)
+            setBoard(player)
         })
 
+       
         socket.on('players crossed', (numberCrossedStatus) => {
             setBoard(prevBoard =>
                 prevBoard.map(player => {
@@ -29,7 +41,18 @@ const PlayerBoard = () => {
                 })
             );
         });
+
+        socket.on('test',(data)=>{
+            console.log(data)
+        })
         
+        return () => {
+            socket.off('player joined');
+            socket.off('test');
+            socket.off('players crossed');
+        };
+
+
 
     }
 
@@ -40,6 +63,7 @@ const PlayerBoard = () => {
     // }
 
     // init required sockets
+
     useEffect(()=>{
         initBoard()
     },[])
@@ -49,16 +73,16 @@ const PlayerBoard = () => {
     return (
         <>  
 
-            {/* use this for format to crate ui */}
+            {/* use this  format to create ||  ui */}
 
-            <div className=' gluten-500 w-[20%] h-[70%] bg-white flex flex-col rounded-md'>
+            <div className=' gluten-500 w-[20%] h-[70%] bg-white flex flex-col rounded-md border-2 border-gray-200'>
 
                 <div className='w-full h-10 border-b border-b-gray-300 text-2xl flex items-center justify-center text-[#211C84]'>PlayerBoard</div>
                 <div className='flex flex-col flex-grow w-full pt-3 space-y-3'>
                     {board.map( (player, index) => (
                         <div key={index} className='w-full flex  bg-amber-100' >
 
-                            <div className='w-[10%] flex items-center justify-center'>{index}</div>
+                            <div className='w-[10%] flex items-center justify-center'>{index+1}</div>
                             <div className='w-[50%] flex items-center justify-start'>{player.name}</div>
                             <div className='w-[40%] flex items-center justify-start'>
                             {

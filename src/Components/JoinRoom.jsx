@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import socket from "../socket";
+import { useNavigate } from "react-router-dom";
 
 function JoinRoom() {
 
   const [name, setName] = useState("");
   const [teamCode, setTeamCode] = useState();
-
+  const navigate = useNavigate();
+  
   // added by abijo 
   const joinRoom = ( ) => {
     socket.emit('join room',{ playerName : name , roomid : teamCode },(res)=>{
-      console.log(res)
+        if(res.status){
+          navigate(`/gameLobby?roomid=1234`);
+        }
     });
   }
     
