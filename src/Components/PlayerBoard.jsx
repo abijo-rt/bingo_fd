@@ -1,14 +1,13 @@
 import socket from '../socket.js'
 import { useEffect, useState } from 'react';
-
+import PlayerCard from './Label/PlayerCard.jsx'
 // const baord  = []  || { player name || player Turn || number Cross STATUS }
 
 
 const PlayerBoard = ({roomid}) => {
 
     const [board, setBoard] = useState([]);
-    const [currTurn,setCurrTurn] = useState(-1);
-    
+    const [isStarted,setStarted] = useState(false)
     
 
     const initBoard = () => {
@@ -42,6 +41,9 @@ const PlayerBoard = ({roomid}) => {
             );
         });
 
+        socket.on("listen to game status", (res) => {
+            if(res == 'game started')setStarted(true);
+        });
 
         return () => {
             socket.off('player joined');
@@ -50,15 +52,21 @@ const PlayerBoard = ({roomid}) => {
         };
 
 
+
     }
 
+    const startGame = () => {
+        socket.emit('init game', {roomid : roomid} ,(res)=>{
+            console.log(res)
+        });
+    }
 
-    // this soulh be use in the board comonent
-    // const numberCrossed = () => {
-    //     socket.emit('cross number', { roomid : 1234 });
-    // }
+    const Bingo = () => {
+        socket.emit('Bingo', {roomid : roomid} ,(res)=>{
+            console.log(res)
+        });
+    }
 
-    // init required sockets
 
     useEffect(()=>{
         initBoard()
@@ -71,23 +79,36 @@ const PlayerBoard = ({roomid}) => {
 
             {/* use this  format to create ||  ui */}
 
-            <div className=' gluten-500 w-[20%] h-[70%] bg-white flex flex-col rounded-md border-2 border-gray-200'>
 
-                <div className='w-full h-10 border-b border-b-gray-300 text-2xl flex items-center justify-center text-[#211C84]'>PlayerBoard</div>
+            <div className='pl-2 pr-2 bg-[#AEEA94] gluten-500 w-[20%] h-[70%]  flex flex-col rounded-md border-2 border-[#5B913B]'>
+
+                <div className=' w-full h-fit pt-2 border-b  border-b-[#5B913B] text-2xl flex items-center justify-center text-[#5B913B]'>
+                        Player Board
+                </div>
+
                 <div className='flex flex-col flex-grow w-full pt-3 space-y-3'>
                     {board.map( (player, index) => (
-                        <div key={index} className='w-full flex  bg-amber-100' >
-
-                            <div className='w-[10%] flex items-center justify-center'>{index+1}</div>
-                            <div className='w-[50%] flex items-center justify-start'>{player.name}</div>
-                            <div className='w-[40%] flex items-center justify-start'>
-                            {
-                                player.isCrossed == true ? <div className='w-4 h-4 bg-green-500 rounded-md'>MARKED</div> : <div className='size-fit p-1 bg-red-500 rounded-md'>not crossed</div>
-                            }
-                            </div>
-
+                        <div key={index} className='w-full' >
+                           <PlayerCard player={player} index = {index} />
                         </div>
                     ))}
+                </div>
+
+                <div className=' p-10 w-full h-fit border-t  border-t-gray-300 text-2xl flex items-center justify-center text-[#211C84]'>
+                    
+                    <div class={` ${isStarted ? 'hidden' : 'display' } btn-3d bg-blue-500 border-blue-400 `}  >
+                          <button onClick={()=>startGame()} class='    w-full h-full flex flex-col justify-center items-center  font-bold text-lg text-white  '>
+                                <span >START GAME</span>
+                          </button>
+                    </div> 
+    
+                    <div class={`${isStarted ? 'display' : 'hidden' } btn-3d bg-yellow-300 border-yellow-500 `}  >
+                          <button onClick={()=>Bingo()} class='w-full h-full flex flex-col justify-center items-center  font-bold text-lg text-white  '>
+                                <span >BINGO</span>
+                          </button>
+                    </div> 
+    
+    
                 </div>
 
 

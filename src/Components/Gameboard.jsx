@@ -6,7 +6,7 @@ const GameBoard = (roomid) => {
     const [gameBoard,setBoard] = useState([])
     const [ player,setPlayer ] = useState("");
     const [ playerId,setPlayerId ] = useState("");
-    const [ choosen_number, setNum ] = useState(-1);
+    const [choosen_number, setNum ] = useState(-1);
     const [gameStatus , setGameStatus] = useState("");
     const [btn,setBtn] = useState("red");
     const [disable,setDisable] = useState("none");
@@ -22,7 +22,6 @@ const GameBoard = (roomid) => {
 
        
         socket.on('number choosen', (data) => {
-             alert(data + "dai")
              setNum(data)
              setAllCrossedNumber(prev => [...prev,data])
         })
@@ -75,6 +74,7 @@ const GameBoard = (roomid) => {
     const crossNumber = ( box_num , index ) => {
         
         if( playerId == socket.id && choosen_number == -1 ) {
+            if(allCrossedNumber.includes(box_num)) return ;
             console.log("sending choosen number" + box_num +" " + roomid )
             console.log( roomid )
             socket.emit('set choosen number', {roomid : roomid.roomid , box_num } , (res)=>{
@@ -86,16 +86,15 @@ const GameBoard = (roomid) => {
             });
 
         }else{
-            alert("open")
+
             if(box_num != choosen_number){
-                alert("choose the correct num")
                 return
             }
-            alert("correct nu")
 
             socket.emit('cross number',({roomid : roomid.roomid ,box_num}),(res)=>{
                 console.log(res)
             });
+
         }
   
     }
@@ -110,37 +109,30 @@ const GameBoard = (roomid) => {
         })
     },[])
 
-    const startGame = () => {
 
-        if(btn=='red') setBtn("blue")
-        else setBtn("red")
-
-        socket.emit('init game', {roomid : 1234} ,(res)=>{
-            console.log(res)
-        });
-    }
 
     return ( 
         <>
             <div>
                 <div className="grid grid-cols-5 gap-2">
 
-                   { 
-                    gameBoard.map( ( box_num , index) =>(
-                        <div onClick={()=>crossNumber(box_num,index)} key={index} className={`${allCrossedNumber.find(num => num === box_num) ? 'bg-red-500' : 'bg-blue-500' } size-16  rounded-3xl border pointer-events-${disable}`}>
-                        <div className={`size-full   flex items-center justify-center text-xl font-bold`}>{box_num}</div>
+                {
+                    gameBoard.map((box_num, index) => (
+                        <div 
+                            onClick={() => crossNumber(box_num, index)} 
+                            key={index} 
+                            className={`${choosen_number === box_num ? 'bg-green-500' : (allCrossedNumber.includes(box_num) ? 'bg-blue-500' : 'bg-red-500')} size-16 rounded-3xl border pointer-events-${disable}`}
+                        >
+                            <div className="size-full flex items-center justify-center text-xl font-bold">
+                                {box_num}
+                            </div>
                         </div>
-                   ))
-                   }
+                    ))
+                }
+
 
                 </div>
 
-                <div class={` btn-3d bg-${btn}-500 border-${btn}-400 `}>
-                                
-		              <button onClick={()=>startGame()} class='w-full h-full flex flex-col justify-center items-center  font-bold text-lg text-white  '>
-                      <span >START GAME</span>
-                      </button>
-	            </div> 
 
 
                 

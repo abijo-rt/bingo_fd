@@ -3,7 +3,7 @@
 
 
 .btn-3d {
-    @apply  w-40 h-16  rounded-lg cursor-pointer select-none
+    @apply  w-40 h-10  rounded-lg cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
     active:border-b-[0px]
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]

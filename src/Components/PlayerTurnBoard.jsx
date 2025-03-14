@@ -1,69 +1,73 @@
 import { useEffect, useState } from "react";
 import socket from "../socket";
+import {
+  ItsYourTurn,
+  PlayerHasChoosen,
+  PlayerIsChoosing,
+  YouHaveChoosen,
+} from "./Label/ItsYourTurn";
 
-const PlayerTurnBoard = ({roomid}) => {
+const PlayerTurnBoard = ({ roomid }) => {
+  const [player, setPlayer] = useState("");
+  const [playerid, setPlayerId] = useState("");
+  const [num, setNum] = useState(-1);
+  const [gameStatus, setGameStatus] = useState("");
 
-        const [ player,setPlayer ] = useState("");
-        const [ playerid,setPlayerId ] = useState("");
-        const [ num, setNum ] = useState(-1);
-        const [gameStatus , setGameStatus] = useState("")
+  useEffect(() => {
+    const initSocket = () => {
 
-        const intisocket = () => {
+      socket.on("player turn", ({ player_turn }) => {
+        setPlayer(player_turn.name);
+        setPlayerId(player_turn.id);
+        setNum(player_turn.choosen_number);
+      });
 
-            socket.on('player turn', ({player_turn}) => {
-                console.log("player turn"+ player_turn)
-                setPlayer(player_turn.name);
-                setPlayerId(player_turn.id);
-                alert(player_turn.choosen_number)
-                setNum(player_turn.choosen_number);
-            })
+      socket.on("number choosen", (choosen_number) => {
+        setNum(choosen_number);
+      });
 
-            socket.on('number choosen',(choosen_number)=>{
-                setNum(choosen_number)
-            })
+      socket.emit("get init game status", { roomid }, (res) => {
+        console.log(res);
+        if (res.status) setGameStatus(res.gameStatus);
+      });
 
-            socket.emit('get init game status', {roomid} ,( res )=>{
-              console.log(res)
-              if(res.status)  setGameStatus(res.gameStatus)
-            })
+      socket.on("listen to game status", (res) => {
+        setGameStatus(res);
+      });
+    };
 
-            socket.on('listen to game status',(res)=>{
-                setGameStatus(res)
-            })
-            
+    initSocket();
 
-        }
+    return () => {
+      socket.off("player turn");
+      socket.off("number choosen");
+      socket.off("listen to game status");
+    };
+  }, []);
 
-        useEffect(()=>{
-
-            intisocket()
-            return () => {
-                socket.off('player turn')
-            }
-
-        },[])
-
-        useEffect(()=>{
-            console.log(num)
-        },[num])
-
- 
-
-    return (
-        <>
+  return (
+    <div>
+      {gameStatus === "lobby" ? (
+        <> Match is not started </>
+      ) : (
+        <div className="flex text-3xl">
+          {playerid === socket.id && num === -1 ? (
+            <ItsYourTurn />
+          ) : (
             <div>
-          { 
-            gameStatus == "lobby" ? <></>   : <div className=" flex text-3xl  ">
-                <div> { playerid == socket.id ? "Its Your Turn" : `${player} is Choos` } </div>
-                <div> { num == -1 ? <span> ing... </span> : <span> en {num} </span> } </div>
+              {playerid === socket.id ? (
+                <YouHaveChoosen num={num} />
+              ) : num === -1 ? (
+                <PlayerIsChoosing name={player} />
+              ) : (
+                <PlayerHasChoosen name={player} num={num} />
+              )}
             </div>
-          }
-            </div>
-        </>
-    )
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
 
-
-}
-
-
-export default PlayerTurnBoard ;
+export default PlayerTurnBoard;
