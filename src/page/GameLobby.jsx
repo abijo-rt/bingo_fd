@@ -17,11 +17,11 @@ const GameLobby = () => {
     return (
         <div className="w-full h-full game-lobby flex flex-col justify-evenly space-y-5">
             <div className="h-[20%] w-full flex items-center justify-center bg-amber-200">
-                <PlayerTurnBoard/>
+                <PlayerTurnBoard roomid={roomid}/>
             </div>
             <div className="flex justify-evenly ">
                 <PlayerBoard roomid={roomid}/>
-                <GameBoard/>
+                <GameBoard roomid={roomid}/>
             </div>
         </div>
     )

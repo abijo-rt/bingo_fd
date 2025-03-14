@@ -42,16 +42,12 @@ const PlayerBoard = ({roomid}) => {
             );
         });
 
-        socket.on('test',(data)=>{
-            console.log(data)
-        })
-        
+
         return () => {
             socket.off('player joined');
             socket.off('test');
             socket.off('players crossed');
         };
-
 
 
     }
