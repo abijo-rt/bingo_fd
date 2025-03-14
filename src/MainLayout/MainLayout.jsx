@@ -4,9 +4,11 @@ import Header from "../Components/Header.jsx";
 const MainLayout = () => {
 
     return (
-        <>
-            <Header/>
-            <Outlet/>
+        <>  
+            <div className="w-full h-full flex flex-col bg-[#AEEA94]">
+                <Header/>
+                <Outlet/>
+            </div>
         </>
     )
 }

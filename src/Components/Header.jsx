@@ -4,7 +4,7 @@ import { SpeakerHigh , Sun } from "phosphor-react";
 const Header=()=>{
     return(
     <>
-        <header className="w-[100%] min-h-[7vh] flex flex-row items-center space px-[2rem] py-[1rem] justify-between"> 
+        <header className="w-[100%] min-h-[5vh] flex flex-row items-center space px-[2rem] py-[1rem] justify-between shadow-b-2xl shadow-[#AEEA94]"> 
             <img src="/src/assets/BingoLogo.png" className="w-[7rem] h-[4.9rem] "/> 
             <div className="flex flex-row w-[10rem] h-[4rem] items-centre p-2">
                 <button className="cursor-pointer w-[3rem] h-[3rem] mr-[3rem] rounded-3xl flex items-center justify-center border-[#febc4a] border-2"><SpeakerHigh size={22} weight="fill" className="text-[#febc4a]" /></button>

@@ -15,11 +15,11 @@ const GameLobby = () => {
     },[roomid])
 
     return (
-        <div className="w-full h-full game-lobby flex flex-col justify-evenly space-y-5">
-            <div className="h-[20%] w-full flex items-center justify-center bg-amber-200">
+        <div className="w-full h-full game-lobby flex flex-col items-center justify-center space-y-5">
+            <div className="h-[10%] w-[50%] flex items-center justify-center">
                 <PlayerTurnBoard roomid={roomid}/>
             </div>
-            <div className="flex justify-evenly ">
+            <div className="  flex w-[70%] flex-grow justify-center space-x-20 ">
                 <PlayerBoard roomid={roomid}/>
                 <GameBoard roomid={roomid}/>
             </div>

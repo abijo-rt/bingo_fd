@@ -9,3 +9,19 @@
     transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
     border-b-[1px] 
 }
+
+
+.btn-3d-fit {
+    @apply rounded-2xl cursor-pointer select-none transition-all duration-150;
+    
+    box-shadow: 0 0.25em 0.25em 0 #1b6ff8, 0 0.4em 0 0 #1b70f841;
+    border-bottom-width: 4px;
+    border-right-width: 4px;
+
+    &:active {
+        transform: translateY(0.2em);
+        box-shadow: 0 0px 0 0 #1b6ff8, 0 0px 0 0 #1b70f841;
+        border-bottom-width: 0;
+        border-right-width: 0;
+    }
+}

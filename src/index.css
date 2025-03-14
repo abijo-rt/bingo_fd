@@ -23,6 +23,15 @@
     "slnt" 0;
 }
 
+.gluten-900 {
+  font-family: "Gluten", cursive;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0;
+}
+
 .gluten-500 {
   font-family: "Gluten", cursive;
   font-optical-sizing: auto;

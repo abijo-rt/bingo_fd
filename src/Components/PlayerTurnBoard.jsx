@@ -46,11 +46,11 @@ const PlayerTurnBoard = ({ roomid }) => {
   }, []);
 
   return (
-    <div>
+    <div className="gluten-500 text-3xl">
       {gameStatus === "lobby" ? (
         <> Match is not started </>
       ) : (
-        <div className="flex text-3xl">
+        <div className="">
           {playerid === socket.id && num === -1 ? (
             <ItsYourTurn />
           ) : (

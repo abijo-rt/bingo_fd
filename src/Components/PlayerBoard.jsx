@@ -80,13 +80,13 @@ const PlayerBoard = ({roomid}) => {
             {/* use this  format to create ||  ui */}
 
 
-            <div className='pl-2 pr-2 bg-[#AEEA94] gluten-500 w-[20%] h-[70%]  flex flex-col rounded-md border-2 border-[#5B913B]'>
+            <div className=' bg-[#AEEA94] gluten-500 w-[30%] h-[70%]  flex flex-col rounded-md border-4 border-[#5B913B]'>
 
-                <div className=' w-full h-fit pt-2 border-b  border-b-[#5B913B] text-2xl flex items-center justify-center text-[#5B913B]'>
+                <div className=' w-full h-fit pt-2 border-b-4  border-b-[#5B913B] text-2xl flex items-center justify-center text-[#5B913B]'>
                         Player Board
                 </div>
 
-                <div className='flex flex-col flex-grow w-full pt-3 space-y-3'>
+                <div className='flex flex-col flex-grow w-full pt-3 space-y-3 p-2'>
                     {board.map( (player, index) => (
                         <div key={index} className='w-full' >
                            <PlayerCard player={player} index = {index} />
@@ -94,7 +94,7 @@ const PlayerBoard = ({roomid}) => {
                     ))}
                 </div>
 
-                <div className=' p-10 w-full h-fit border-t  border-t-gray-300 text-2xl flex items-center justify-center text-[#211C84]'>
+                <div className=' p-5 w-full h-fit border-t-4 bg-amber-300  border-t-[#5B913B] text-2xl flex items-center justify-center text-[#211C84]'>
                     
                     <div class={` ${isStarted ? 'hidden' : 'display' } btn-3d bg-blue-500 border-blue-400 `}  >
                           <button onClick={()=>startGame()} class='    w-full h-full flex flex-col justify-center items-center  font-bold text-lg text-white  '>

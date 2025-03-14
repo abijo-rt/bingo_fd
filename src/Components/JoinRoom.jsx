@@ -8,7 +8,7 @@ function JoinRoom() {
   const [teamCode, setTeamCode] = useState();
   const navigate = useNavigate();
   
-  // added by abijo 
+  // added by abij
   const joinRoom = ( ) => {
     socket.emit('join room',{ playerName : name , roomid : teamCode },(res)=>{
         if(res.status){
