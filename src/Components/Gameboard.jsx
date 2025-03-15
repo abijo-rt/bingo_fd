@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import socket from "../socket";
 
-const count_row_col = (setRow, setCol, index, setTotalCount) => {
+const count_row_col = (setRow, setCol, index) => {
 
 
     let rowIndex = Math.floor(index / 5);
@@ -19,30 +19,17 @@ const count_row_col = (setRow, setCol, index, setTotalCount) => {
         return newCol;
     });
 
-    // setRow(prevRow => {
-    //     if (prevRow[rowIndex] === 5) {
-    //         setTotalCount(prev => prev + 1);
-    //     }
-    //     return prevRow;
-    // });
-
-    // setCol(prevCol => {
-    //     if (prevCol[colIndex] === 5) {
-    //         setTotalCount(prev => prev + 1);
-    //     }
-    //     return prevCol;
-    // });
     
 };
 
 
-const GameBoard = (roomid) => {
+const GameBoard = ({roomid,cusAlert}) => {
 
     const [gameBoard,setBoard] = useState([])
     const [ player,setPlayer ] = useState("");
     const [ playerId,setPlayerId ] = useState("");
     const [choosen_number, setNum ] = useState(-1);
-    const [gameStatus , setGameStatus] = useState("");
+    const [gameStatus , setGameStatus] = useState(false);
     const [btn,setBtn] = useState("red");
     const [disable,setDisable] = useState("none");
     const [allCrossedNumber,setAllCrossedNumber] = useState([])
@@ -51,7 +38,9 @@ const GameBoard = (roomid) => {
     const [TotalCount,setTotalCount] = useState(0);
 
 
-    const intisocket = () => {
+    const intisocket = () => {  
+
+        console.log("ROOOOM !!!" + roomid)
 
         socket.on('player turn', ({player_turn}) => {
             setPlayer(player_turn.name);
@@ -71,7 +60,7 @@ const GameBoard = (roomid) => {
 
         socket.emit('get init game status', {roomid} ,( res )=>{
             console.log(res)
-          if(res.status)  setGameStatus(res.gameStatus)
+            if(res.status == 'game start') setGameStatus(true)
         })
 
         socket.on('listen to game status',(res)=>{
@@ -108,17 +97,12 @@ const GameBoard = (roomid) => {
         }
     },[player,playerId,choosen_number])
 
-    useEffect(()=>{
 
-        console.log("ROW"+row)
-        console.log("COL"+col)
-        console.log("TOTAL NO"+TotalCount)
-        if(TotalCount == 5) alert("bingo")
-
-    },[row,col,TotalCount])
 
     const crossNumber = ( box_num , index ) => {
+
         
+
         if( playerId == socket.id && choosen_number == -1 ) {
 
             if(allCrossedNumber.includes(box_num)) return ;
@@ -126,11 +110,11 @@ const GameBoard = (roomid) => {
             console.log("sending choosen number" + box_num +" " + roomid )
             console.log( roomid )
 
-            socket.emit('set choosen number', {roomid : roomid.roomid , box_num } , (res)=>{
+            socket.emit('set choosen number', {roomid : roomid , box_num } , (res)=>{
                 console.log(res)
             });
 
-            socket.emit('cross number',({roomid : roomid.roomid ,box_num}),(res)=>{
+            socket.emit('cross number',({roomid : roomid ,box_num}),(res)=>{
                 console.log(res)    
             });
             
@@ -144,7 +128,7 @@ const GameBoard = (roomid) => {
             }
             
             // alert("cross")
-            socket.emit('cross number',({roomid : roomid.roomid ,box_num}),(res)=>{
+            socket.emit('cross number',({roomid : roomid ,box_num}),(res)=>{
                 console.log(res)
             });
             
@@ -152,16 +136,25 @@ const GameBoard = (roomid) => {
             
             
         }
-        count_row_col(setRow,setCol,index,setTotalCount);
+        count_row_col(setRow,setCol,index);
     }
 
-    // useEffect(()=>{
-    //     console.log(disable)
-    // },[disable])
+    const startGame = () => {
+        console.log(roomid)
+        socket.emit('init game', {roomid : roomid} ,(res)=>{
+            console.log(res)
+        });
+    }
 
-    // useEffect(()=>{
-    //     console.log(allCrossedNumber)
-    // },[allCrossedNumber])
+    const Bingo = () => {
+        cusAlert(1)
+        // cusAlert(1)
+
+        // socket.emit('Bingo', {roomid : roomid} ,(res)=>{
+        //     console.log(res)
+        // });
+    }
+
 
     useEffect(()=>{
         console.log(row)
@@ -170,10 +163,12 @@ const GameBoard = (roomid) => {
  
         let count = row.filter(val => val === 5).length + col.filter(val => val === 5).length;
         if(count === 5 ) alert("YOUR ARE THE WINNER")
+        setTotalCount(count)
     },[row,col])
 
     useEffect(()=>{
         socket.on('game state',({board})=>{
+            console.log(board)
             setBoard(board)
         })
     },[])
@@ -183,7 +178,7 @@ const GameBoard = (roomid) => {
     return ( 
         <>
             <div className="space-y-10 flex flex-col w-[60%] h-full items-center">
-                <div className=" grid grid-cols-5 gap-2  w-fit h-fit border-4 rounded-4xl p-4 bg-yellow-400 border-amber-900">
+                <div className={` ${gameStatus ? 'display' : 'hidden' } indie-flower grid grid-cols-5 gap-2  w-fit h-fit border-4 border-b-8 border-r-8 rounded-4xl p-4 bg-yellow-400 border-amber-900 `}>
                 {
                     gameBoard.map((box_num, index) => (
 
@@ -191,7 +186,7 @@ const GameBoard = (roomid) => {
                                 onClick={() => crossNumber(box_num, index)} 
                                 key={index} 
                                 className={`
-                                    ${choosen_number === box_num ? 'bg-green-500 border-green-900' 
+                                    ${choosen_number === box_num ? 'bg-green-500 border-green-900 animate-pulse' 
                                     : allCrossedNumber.includes(box_num) ? 'bg-red-400 border-red-900' 
                                     : 'bg-blue-400 border-blue-900'} 
                                     size-16 rounded-3xl border-4 
@@ -206,12 +201,25 @@ const GameBoard = (roomid) => {
                 }
                 </div>
                 
-                <div className="btn-3d-fit  pl-2 pr-2 p-2 gluten-500 w-fit bg-amber-400 h-fit flex items-center justify-center text-4xl ">
-                        <span className="">B</span>
-                        <span className="">I</span>
-                        <span className="">N</span>
-                        <span className="">G</span>
-                        <span className="">O</span>
+                <div className=' p-5 w-full h-fit  text-2xl flex items-center justify-center text-[#211C84]'>
+                    
+                    <div class={` ${gameStatus ? 'hidden' : 'display' } btn-3d bg-blue-500 border-blue-400 `}  >
+                          <button onClick={()=>startGame()} class='    w-full h-full flex flex-col justify-center items-center  font-bold text-lg text-white  '>
+                                <span >START GAME</span>
+                          </button>
+                    </div> 
+    
+                    <div class={`${gameStatus ? 'display' : 'hidden' } btn-3d bg-yellow-300 border-yellow-500  `}  >
+                          <button onClick={()=>Bingo()} class='flex  text-xl w-full h-full  justify-center items-center  font-extrabold  text-amber-900  '>
+                                <span className={`${ TotalCount >= 1  ? 'animate-bounce' : '' }`} >B</span>
+                                <span className={`${ TotalCount >= 2  ? 'animate-bounce' : '' }`} >I</span>
+                                <span className={`${ TotalCount >= 3  ? 'animate-bounce' : '' }`} >N</span>
+                                <span className={`${ TotalCount >= 4  ? 'animate-bounce' : '' }`} >G</span>
+                                <span className={`${ TotalCount >= 5  ? 'animate-bounce' : '' }`} >O</span>
+                          </button>
+                    </div> 
+    
+    
                 </div>
 
                 

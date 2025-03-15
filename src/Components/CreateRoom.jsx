@@ -2,7 +2,8 @@ import { useState } from "react";
 import socket from "../socket";
 import JoinRoom from "./JoinRoom";
 import { Navigate, useNavigate } from "react-router-dom";
-const CreateRoom = () => {
+
+const CreateRoom = ({cusAlert}) => {
   
   const [activeTab, setActiveTab] = useState("create"); // 'create' or 'join'
   const [hostName, setHostName] = useState("");
@@ -14,10 +15,14 @@ const CreateRoom = () => {
       socket.emit("create room", { hostName, sizeOfBoard }, (res) => {
         console.log(res);
         if(res.status){
-          navigate(`/gameLobby?roomid=1234`);
+          navigate(`/gameLobby?roomid=${res.msg}`);
         }
       });
   };
+
+  const cusAlert_join = (alert_no) => {
+    cusAlert(alert_no)
+  }
 
   const createRoom = () => {
     createRoomAPI(hostName, sizeOfBoard);
@@ -87,7 +92,7 @@ const CreateRoom = () => {
 
       {activeTab === "join" && (
         <div className="w-[100%] max-w-md text-center">
-          <JoinRoom />
+          <JoinRoom cusAlert_join = {cusAlert_join} />
         </div>
       )}
     </div>

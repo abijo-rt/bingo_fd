@@ -36,4 +36,13 @@ const YouHaveChoosen = ({num}) => {
     )
 }
 
-export  {ItsYourTurn , PlayerHasChoosen , PlayerIsChoosing ,YouHaveChoosen} ;
+
+const ShowRoomId = ({roomid}) => {
+    return (
+        <>
+            <div className=" "> {roomid}</div>
+        </>
+    )
+}
+
+export  {ItsYourTurn , PlayerHasChoosen , PlayerIsChoosing ,YouHaveChoosen , ShowRoomId} ;

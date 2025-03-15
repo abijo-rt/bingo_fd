@@ -5,6 +5,7 @@ import {
   PlayerHasChoosen,
   PlayerIsChoosing,
   YouHaveChoosen,
+  ShowRoomId,
 } from "./Label/ItsYourTurn";
 
 const PlayerTurnBoard = ({ roomid }) => {
@@ -48,7 +49,7 @@ const PlayerTurnBoard = ({ roomid }) => {
   return (
     <div className="gluten-500 text-3xl">
       {gameStatus === "lobby" ? (
-        <> Match is not started </>
+        < ShowRoomId roomid={roomid}/>
       ) : (
         <div className="">
           {playerid === socket.id && num === -1 ? (

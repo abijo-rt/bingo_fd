@@ -2,19 +2,24 @@ import React, { useState } from "react";
 import socket from "../socket";
 import { useNavigate } from "react-router-dom";
 
-function JoinRoom() {
+function JoinRoom({cusAlert_join}) {
 
   const [name, setName] = useState("");
   const [teamCode, setTeamCode] = useState();
   const navigate = useNavigate();
   
-  // added by abij
-  const joinRoom = ( ) => {
+  // added by abij0
+  const joinRoom = () => {
+
     socket.emit('join room',{ playerName : name , roomid : teamCode },(res)=>{
+        console.log(res)
+
         if(res.status){
-          navigate(`/gameLobby?roomid=1234`);
-        }
+          navigate(`/gameLobby?roomid=${teamCode}`);
+        }else { cusAlert_join(1) }
+
     });
+
   }
     
 
@@ -37,7 +42,7 @@ function JoinRoom() {
         <label className="block text-gray-800 font-medium mb-1">Team Code</label>
         <input
           className="h-[3rem] w-full border-2 border-[#fdc659] px-4 py-2 rounded-md focus:outline-none"
-          type="number"
+          type="text"
           value={teamCode}
           onChange={(e) => setTeamCode(e.target.value)}
         />

@@ -4,15 +4,15 @@ import PlayerCard from './Label/PlayerCard.jsx'
 // const baord  = []  || { player name || player Turn || number Cross STATUS }
 
 
-const PlayerBoard = ({roomid}) => {
+const PlayerBoard = ({roomid,cusAlert}) => {
 
     const [board, setBoard] = useState([]);
-    const [isStarted,setStarted] = useState(false)
+    // const [isStarted,setStarted] = useState(false)
     
 
     const initBoard = () => {
 
-        console.log("ROOM ID"+roomid)
+        console.log("ROOM ID" + roomid )
         
         // set a socket emit to get the intial data 
         socket.emit( 'get init player board' , {roomid} , (res) => {
@@ -27,7 +27,7 @@ const PlayerBoard = ({roomid}) => {
 
         socket.on( 'player joined' , ({ player  }) => {
             console.log("player board data")
-            console.log(player)
+            cusAlert(1)
             setBoard(player)
         })
 
@@ -41,9 +41,9 @@ const PlayerBoard = ({roomid}) => {
             );
         });
 
-        socket.on("listen to game status", (res) => {
-            if(res == 'game started')setStarted(true);
-        });
+        // socket.on("listen to game status", (res) => {
+        //     if(res == 'game started')setStarted(true);
+        // });
 
         return () => {
             socket.off('player joined');
@@ -55,17 +55,17 @@ const PlayerBoard = ({roomid}) => {
 
     }
 
-    const startGame = () => {
-        socket.emit('init game', {roomid : roomid} ,(res)=>{
-            console.log(res)
-        });
-    }
+    // const startGame = () => {
+    //     socket.emit('init game', {roomid : roomid} ,(res)=>{
+    //         console.log(res)
+    //     });
+    // }
 
-    const Bingo = () => {
-        socket.emit('Bingo', {roomid : roomid} ,(res)=>{
-            console.log(res)
-        });
-    }
+    // const Bingo = () => {
+    //     socket.emit('Bingo', {roomid : roomid} ,(res)=>{
+    //         console.log(res)
+    //     });
+    // }
 
 
     useEffect(()=>{
@@ -80,7 +80,7 @@ const PlayerBoard = ({roomid}) => {
             {/* use this  format to create ||  ui */}
 
 
-            <div className=' bg-[#AEEA94] gluten-500 w-[30%] h-[70%]  flex flex-col rounded-md border-4 border-[#5B913B]'>
+            <div className=' bg-[#AEEA94] gluten-500 w-[30%] h-[70%]  flex flex-col rounded-md border-4  border-b-8 border-r-8   border-[#5B913B]'>
 
                 <div className=' w-full h-fit pt-2 border-b-4  border-b-[#5B913B] text-2xl flex items-center justify-center text-[#5B913B]'>
                         Player Board
@@ -94,7 +94,7 @@ const PlayerBoard = ({roomid}) => {
                     ))}
                 </div>
 
-                <div className=' p-5 w-full h-fit border-t-4 bg-amber-300  border-t-[#5B913B] text-2xl flex items-center justify-center text-[#211C84]'>
+                {/* <div className=' p-5 w-full h-fit border-t-4 bg-amber-300  border-t-[#5B913B] text-2xl flex items-center justify-center text-[#211C84]'>
                     
                     <div class={` ${isStarted ? 'hidden' : 'display' } btn-3d bg-blue-500 border-blue-400 `}  >
                           <button onClick={()=>startGame()} class='    w-full h-full flex flex-col justify-center items-center  font-bold text-lg text-white  '>
@@ -109,8 +109,11 @@ const PlayerBoard = ({roomid}) => {
                     </div> 
     
     
-                </div>
+                </div> */}
 
+                <div className='w-full h-fit p-5 flex items-center justify-center'>
+                    {roomid}
+                </div>
 
             </div>
         </>
