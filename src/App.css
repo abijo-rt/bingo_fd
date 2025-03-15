@@ -25,3 +25,11 @@
         border-right-width: 0;
     }
 }
+
+.brd-3d-4 {
+    @apply border-b-4 border-r-4 border-2;
+}
+
+.brd-3d-8 {
+    @apply border-b-8 border-r-8 border-4;
+}

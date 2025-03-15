@@ -25,23 +25,23 @@ function JoinRoom({cusAlert_join}) {
 
 
   return (
-    <div className="w-[100%] max-w-md mt-6 flex flex-col items-center border-2 border-[#fdc659] p-6 rounded-lg">
+    <div className="w-[100%] max-w-md mt-6 flex flex-col items-center brd-3d-4 bg-[#FFC94A] border-[#C08B5C] text-[#795458] p-6 rounded-lg">
       <p className="text-xl font-semibold text-gray-800 mb-4">Join a Room</p>
 
-      <div className="w-[70%] mb-3">
-        <label className="block text-gray-800 font-medium mb-1">Your Name</label>
+      <div className="w-[95%] mb-3 flex flex-col items-start">
+        <label className="  font-medium mb-1">Your Name</label>
         <input
-          className="h-[3rem] w-full border-2 border-[#fdc659] px-4 py-2 rounded-md focus:outline-none"
+          className="brd-3d-4 h-[2.6rem] w-full border-2 border-[#C08B5C] px-4 py-2 rounded-md focus:outline-none"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
 
-      <div className="w-[70%] mb-3">
-        <label className="block text-gray-800 font-medium mb-1">Team Code</label>
+      <div className="w-[95%] mb-3">
+        <label className="block font-medium mb-1 flex flex-col items-start">Team Code</label>
         <input
-          className="h-[3rem] w-full border-2 border-[#fdc659] px-4 py-2 rounded-md focus:outline-none"
+          className=" brd-3d-4 h-[2.6rem] w-full  border-[#C08B5C] px-4 py-2 rounded-md focus:outline-none"
           type="text"
           value={teamCode}
           onChange={(e) => setTeamCode(e.target.value)}
@@ -51,7 +51,7 @@ function JoinRoom({cusAlert_join}) {
       <button
         type="button"
         onClick={()=>joinRoom()}
-        className="h-[3rem] w-[70%] mt-2 bg-[#fdc659] text-white font-bold rounded-md hover:bg-[#e6b850] transition-all"
+        className="h-[2.6rem] w-[95%] mt-2 bg-[#C08B5C] text-white font-bold rounded-md  transition-all"
       >
         Join Room
       </button>

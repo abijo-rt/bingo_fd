@@ -148,8 +148,6 @@ const GameBoard = ({roomid,cusAlert}) => {
 
     const Bingo = () => {
         cusAlert(1)
-        // cusAlert(1)
-
         // socket.emit('Bingo', {roomid : roomid} ,(res)=>{
         //     console.log(res)
         // });
@@ -164,6 +162,7 @@ const GameBoard = ({roomid,cusAlert}) => {
         let count = row.filter(val => val === 5).length + col.filter(val => val === 5).length;
         if(count === 5 ) alert("YOUR ARE THE WINNER")
         setTotalCount(count)
+    
     },[row,col])
 
     useEffect(()=>{
