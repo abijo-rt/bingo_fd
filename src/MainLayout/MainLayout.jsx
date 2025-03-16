@@ -5,7 +5,7 @@ const MainLayout = () => {
 
     return (
         <>  
-            <div className="w-full h-full flex flex-col bg-[#AEEA94]">
+            <div className="w-full h-full flex flex-col bg-green-200">
                 <Header/>
                 <Outlet/>
             </div>

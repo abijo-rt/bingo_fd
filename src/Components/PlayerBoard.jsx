@@ -80,39 +80,18 @@ const PlayerBoard = ({roomid,cusAlert}) => {
             {/* use this  format to create ||  ui */}
 
 
-            <div className=' bg-[#AEEA94] gluten-500 w-[30%] h-[70%]  flex flex-col rounded-md border-4  border-b-8 border-r-8   border-[#5B913B]'>
+            <div className=' bg-[#FFC94A] gluten-500 w-[30%] h-[75%] overflow-auto flex flex-col rounded-md brd-3d-4   border-[#C08B5C]'>
 
-                <div className=' w-full h-fit pt-2 border-b-4  border-b-[#5B913B] text-2xl flex items-center justify-center text-[#5B913B]'>
+                <div className=' w-full text-[#C08B5C] h-13 pt-2 border-b-2 bg-[#FCF596] rounded-t-md border-b-[#C08B5C] text-2xl flex items-center justify-center'>
                         Player Board
                 </div>
 
-                <div className='flex flex-col flex-grow w-full pt-3 space-y-3 p-2'>
+                <div className='flex flex-col flex-grow w-full  space-y-3 p-2'>
                     {board.map( (player, index) => (
                         <div key={index} className='w-full' >
                            <PlayerCard player={player} index = {index} />
                         </div>
                     ))}
-                </div>
-
-                {/* <div className=' p-5 w-full h-fit border-t-4 bg-amber-300  border-t-[#5B913B] text-2xl flex items-center justify-center text-[#211C84]'>
-                    
-                    <div class={` ${isStarted ? 'hidden' : 'display' } btn-3d bg-blue-500 border-blue-400 `}  >
-                          <button onClick={()=>startGame()} class='    w-full h-full flex flex-col justify-center items-center  font-bold text-lg text-white  '>
-                                <span >START GAME</span>
-                          </button>
-                    </div> 
-    
-                    <div class={`${isStarted ? 'display' : 'hidden' } btn-3d bg-yellow-300 border-yellow-500 `}  >
-                          <button onClick={()=>Bingo()} class='w-full h-full flex flex-col justify-center items-center  font-bold text-lg text-white  '>
-                                <span >BINGO</span>
-                          </button>
-                    </div> 
-    
-    
-                </div> */}
-
-                <div className='w-full h-fit p-5 flex items-center justify-center'>
-                    {roomid}
                 </div>
 
             </div>

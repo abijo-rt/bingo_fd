@@ -1,5 +1,5 @@
 import { useEffect ,useState } from "react";
-import { WarningCircle ,XCircle } from "phosphor-react";
+import { WarningCircle ,Trophy } from "phosphor-react";
 
 const PlayerJoinedAlert = ({onClose}) => {
 
@@ -77,4 +77,44 @@ const RoomNotFoundAlert = ({onClose}) => {
 
 }
 
-export  {RoomNotFoundAlert,PlayerJoinedAlert};
+const WinnerAlert = ({onClose}) => {
+
+  const [fade, setFade] = useState("opacity-0");
+
+  useEffect(()=>{
+
+      setTimeout(() => setFade("opacity-100"), 100);
+
+      const fadeOutTimer = setTimeout(() => {
+        setFade("opacity-0");
+      }, 2000);
+
+      const timer = setTimeout(() => {
+          setFade("opacity-0")
+          onClose(false)
+      }, 2500);
+
+      return ()=>{
+          clearTimeout(timer)
+          clearTimeout(fadeOutTimer)
+      }
+
+  },[])
+
+  return (
+    <>
+      <div className={` flex-col indie-flower absolute top-[10%] w-96 h-50  brd-3d-4 border-[#C08B5C] text-[#C08B5C]  bg-[#FCF596] rounded-lg flex ${fade} transition-opacity duration-300`} >
+            <div className=" text-2xl font-bold h-20 w-full flex items-center justify-center space-x-2 "> <span>GAME OVER</span> </div>
+            <div className="w-full flex flex-grow item-center justify-center text-xl font-bold space-x-2">
+              <Trophy size={32} color="#C08B5C" weight="duotone" /> <span className="text-center"> YOU HAVE WON THE MATCH</span>
+            </div>
+            <div className="w-full flex h-fit p-5 items-center justify-center">
+                    <button className=" btn-3d bg-blue-300 " >OK</button>
+            </div>
+      </div>
+    </>
+  )
+
+}
+
+export  {RoomNotFoundAlert,PlayerJoinedAlert,WinnerAlert};

@@ -147,7 +147,8 @@ const GameBoard = ({roomid,cusAlert}) => {
     }
 
     const Bingo = () => {
-        cusAlert(1)
+        cusAlert(3)
+        // if(TotalCount==5) cusAlert(3)
         // socket.emit('Bingo', {roomid : roomid} ,(res)=>{
         //     console.log(res)
         // });
@@ -177,7 +178,7 @@ const GameBoard = ({roomid,cusAlert}) => {
     return ( 
         <>
             <div className="space-y-10 flex flex-col w-[60%] h-full items-center">
-                <div className={` ${gameStatus ? 'display' : 'hidden' } indie-flower grid grid-cols-5 gap-2  w-fit h-fit border-4 border-b-8 border-r-8 rounded-4xl p-4 bg-yellow-400 border-amber-900 `}>
+                <div className={` ${gameStatus ? 'display' : 'hidden' } indie-flower grid grid-cols-5 gap-2  w-fit h-fit brd-3d-4 rounded-4xl p-4 bg-yellow-400 border-amber-900 `}>
                 {
                     gameBoard.map((box_num, index) => (
 
@@ -188,7 +189,7 @@ const GameBoard = ({roomid,cusAlert}) => {
                                     ${choosen_number === box_num ? 'bg-green-500 border-green-900 animate-pulse' 
                                     : allCrossedNumber.includes(box_num) ? 'bg-red-400 border-red-900' 
                                     : 'bg-blue-400 border-blue-900'} 
-                                    size-16 rounded-3xl border-4 
+                                    size-16 rounded-3xl brd-3d-4
                                     ${disable === 'none' ? 'pointer-events-none' : 'pointer-events-auto'}
                                 `}
                             >
